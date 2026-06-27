@@ -54,25 +54,6 @@ Powered by **Google Gemini 2.5 Flash**, the application delivers intelligent, na
 
 ---
 
-# 🖼️ Project Screenshots
-
-## Landing Page
-
-![Landing Page](./landing.png)
-
----
-
-## Features Section
-
-![Features](./features.png)
-
----
-
-## Chat Interface
-
-![Chat Interface](./chat-card.png)
-
----
 
 # 🏗️ Tech Stack
 
