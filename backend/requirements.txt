@@ -5,3 +5,7 @@ pandas
 python-dotenv
 google-genai
 wikipedia
+python-dotenv
+google-genai
+openpyxl
+python-multipart
