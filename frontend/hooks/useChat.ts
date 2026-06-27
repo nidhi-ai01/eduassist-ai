@@ -11,12 +11,14 @@ function uid() {
 export function useChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const sendMessage = useCallback(
     async (content: string) => {
       const trimmed = content.trim()
       if (!trimmed || isLoading) return
 
+      setError(null)
       const userMessage: ChatMessage = {
         id: uid(),
         role: 'user',
@@ -33,19 +35,19 @@ export function useChat() {
           id: uid(),
           role: 'assistant',
           content: response.reply,
-          college: response.college,
           createdAt: Date.now(),
         }
         setMessages((prev) => [...prev, assistantMessage])
       } catch (error) {
-        console.log('[v0] useChat sendMessage error:', error)
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+        console.error('[useChat] Error:', errorMessage)
+        setError(errorMessage)
         setMessages((prev) => [
           ...prev,
           {
             id: uid(),
             role: 'assistant',
-            content:
-              'Sorry, something went wrong while reaching the assistant. Please try again.',
+            content: `Error: ${errorMessage}. Please check that the backend is running.`,
             createdAt: Date.now(),
           },
         ])
@@ -56,7 +58,10 @@ export function useChat() {
     [isLoading],
   )
 
-  const clearMessages = useCallback(() => setMessages([]), [])
+  const clearMessages = useCallback(() => {
+    setMessages([])
+    setError(null)
+  }, [])
 
-  return { messages, isLoading, sendMessage, clearMessages }
+  return { messages, isLoading, error, sendMessage, clearMessages }
 }
